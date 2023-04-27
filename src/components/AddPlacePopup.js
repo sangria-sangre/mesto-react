@@ -5,6 +5,11 @@ function AddPlacePopup(props) {
     const nameRef = React.createRef();
     const linkRef = React.createRef();
 
+    React.useEffect(() => {
+        nameRef.current.value = '';
+        linkRef.current.value = '';
+    });
+
     function handleSubmit() {
         props.onAddPlace({
             name: nameRef.current.value,
@@ -14,7 +19,7 @@ function AddPlacePopup(props) {
 
     return (
         <PopupWithForm isOpen={props.isOpen} isClose={props.onClose} name="item" onSubmit={handleSubmit}
-            title="Новое место" btn="Создать" btnOn="Создание..." children={
+            title="Новое место" textButton="Создать" children={
                 <>
                     <input className="popup__input popup__input_item_title" id="name-input" type="text" name="name"
                         placeholder="Название" minLength="2" maxLength="30" required ref={nameRef} />

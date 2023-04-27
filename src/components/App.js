@@ -3,9 +3,8 @@ import api from '../utils/Api.js';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import FormValidator from './FormValidator.js';
+import FormValidator from '../utils/FormValidator.js';
 import { validationConfig } from '../utils/const.js';
-import { renderLoading } from '../utils/utils.js';
 
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
@@ -21,9 +20,10 @@ function App() {
   const [isEditAvatarPopupOpen, setAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const formValidators = {}
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
@@ -91,7 +91,7 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-    renderLoading(true, '.popup_profile');
+
     api.postUserInfo(data)
       .then((user) => {
         setCurrentUser(user)
@@ -102,13 +102,11 @@ function App() {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {
-        renderLoading(false, '.popup_profile');
-      });
+
   }
 
   function handleUpdateAvatar(data) {
-    renderLoading(true, '.popup_avatar-update');
+
     api.postUserPhoto(data)
       .then((user) => {
         setCurrentUser(user);
@@ -119,13 +117,11 @@ function App() {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {
-        renderLoading(false, '.popup_avatar-update');
-      });
+
   }
 
   function handleAddPlace(data) {
-    renderLoading(true, '.popup_item');
+
     api.postCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);;
@@ -135,9 +131,6 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => {
-        renderLoading(false, '.popup_item');
       });
   }
 
@@ -155,7 +148,7 @@ function App() {
             <Footer />
           </div>
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 

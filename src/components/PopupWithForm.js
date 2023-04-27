@@ -1,10 +1,10 @@
+import React from 'react';
+
 function PopupWithForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
         props.onSubmit();
-
-        document.querySelector(`[name=${props.name}]`).reset();
     }
 
     return (
@@ -14,9 +14,9 @@ function PopupWithForm(props) {
                 <form className="popup__form" action="get" name={`${props.name}`} noValidate onSubmit={handleSubmit}>
                     <h2 className="popup__title"> {props.title} </h2>
                     {props.children}
-                    <button className="popup__save-btn popup__save-btn_profile" type="submit" >
-                        <span className="popup__btn-default-name">{props.btn}</span>
-                        <span className="popup__loading">{props.btnOn}</span></button>
+                    <button className="popup__save-btn popup__save-btn_profile" type="submit">
+                        <span className="popup__btn-default-name">{props.textButton}</span>
+                        </button>
                 </form>
             </div>
         </section>
