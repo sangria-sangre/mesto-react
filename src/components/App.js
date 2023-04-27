@@ -23,7 +23,6 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const formValidators = {}
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
@@ -148,7 +147,7 @@ function App() {
             <Footer />
           </div>
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
