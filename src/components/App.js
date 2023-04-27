@@ -23,6 +23,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const formValidators = {}
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
@@ -90,7 +91,7 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-
+    setIsLoading(true);
     api.postUserInfo(data)
       .then((user) => {
         setCurrentUser(user)
@@ -101,11 +102,14 @@ function App() {
       .catch((err) => {
         console.log(err);
       })
+      .finally(() => {
+        setIsLoading(false);
+      })
 
   }
 
   function handleUpdateAvatar(data) {
-
+    setIsLoading(true);
     api.postUserPhoto(data)
       .then((user) => {
         setCurrentUser(user);
@@ -116,11 +120,14 @@ function App() {
       .catch((err) => {
         console.log(err);
       })
+      .finally(() => {
+        setIsLoading(false);
+      })
 
   }
 
   function handleAddPlace(data) {
-
+    setIsLoading(true);
     api.postCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);;
@@ -130,7 +137,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   return (
@@ -147,13 +157,16 @@ function App() {
             <Footer />
           </div>
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}
+            textButton={isLoading ? "Сохранение..." : "Сохранить"} />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}
+            textButton={isLoading ? "Сохранение..." : "Сохранить"} />
 
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} />
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}
+            textButton={isLoading ? "Создание..." : "Создать"} />
 
-          <PopupWithForm isOpen={false} isClose={closeAllPopups} name="delete-item" title="Вы уверены?" children=""/>
+          <PopupWithForm isOpen={false} isClose={closeAllPopups} name="delete-item" title="Вы уверены?" children="" />
           <ImagePopup isOpen={selectedCard} isClose={closeAllPopups} />
 
         </div>
