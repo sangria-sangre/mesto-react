@@ -46,7 +46,18 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+
   }, []);
+
+  React.useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        closeAllPopups();
+      }
+    }
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [])
 
   function handleEditAvatarClick() {
     formValidators['avatar-update'].resetValidation();
